@@ -22,7 +22,7 @@ def get_reddit():
 def get_account():
     """Method preparing the account using Reddit API."""
     reddit = get_reddit()
-    reddit.refresh_access_information(properties.APP_REFRESH_CODE)
+    reddit.refresh_access_information(refresh_token=properties.APP_REFRESH_CODE)
     return reddit
 
 
@@ -52,4 +52,5 @@ def get_access_information(access_code):
         return access_information
 
 
-# print(get_access_information)
+#print(generate_access_code())
+#print(get_access_information('FuippBmSiFcCM4aOKtKEtQkWEwc'))
