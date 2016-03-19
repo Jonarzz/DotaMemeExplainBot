@@ -28,25 +28,33 @@ def main():
                            '"&limit=100&subreddit=' + properties.SUBREDDIT)
         json_data = json.loads(response.read().decode('utf-8'))
         comments = json_data["data"]
+
         for comment in comments:
             if already_checked(comment['id']):
                 continue
 
             submission_link = 'https://www.reddit.com' + comment['link_permalink'] + comment['id']
             submission = reddit.get_submission(submission_link)
-            original_comment = submission.comments[0]
+
+            try:
+                original_comment = submission.comments[0]
+            except IndexError:
+                add_to_already_checked(comment['id'])
 
             match = re.match(properties.BOT_CALL_PHRASE + ':?(.*)', comment['body'])
 
             if not match or match.group(1).strip() == '':
                 reply_to_comment(original_comment, comment['id'], properties.INVALID_REQUEST_REPLY)
             else:
-                reply_to_comment(original_comment, comment['id'], create_reply(match.group(1).strip()))
+                query = match.group(1).strip()
+                if 'explainthememe' in query.lower():
+                    reply_to_comment(original_comment, comment['id'], properties.TRYING_TO_LOOP_REPLY)
+                elif len(query) > 2 and len(query) < 150:
+                    reply_to_comment(original_comment, comment['id'], create_reply(query))
+                else:
+                    reply_to_comment(original_comment, comment['id'], properties.INVALID_COMMENT_LENGTH_REPLY)
     except (KeyboardInterrupt, SystemExit):
         raise
-    except IndexError:
-        add_to_already_checked(comment['id'])
-        log(comment['id'])
     except:
         log(traceback.format_exc())
     finally:
@@ -156,6 +164,9 @@ def create_comment_for_multiple_results(original_query, query, results):
         for link in links:
             comment += '[link](' + link + ') '
         comment += '\n\n'
+
+    if len(comment.splitlines()) > 13:
+        comment = properties.TOO_MANY_RESULTS_REPLY
 
     comment += properties.COMMENT_ENDING[2:]
 
