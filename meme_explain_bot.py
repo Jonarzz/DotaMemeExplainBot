@@ -41,7 +41,7 @@ def main():
             except IndexError:
                 add_to_already_checked(comment['id'])
 
-            match = re.match(properties.BOT_CALL_PHRASE + ':?(.*)', comment['body'])
+            match = re.search(properties.BOT_CALL_PHRASE + ':?(.*)', comment['body'])
 
             if not match or match.group(1).strip() == '':
                 reply_to_comment(original_comment, comment['id'], properties.INVALID_REQUEST_REPLY)
@@ -124,7 +124,7 @@ def create_reply(query):
         elif len(results) > 1:
             reply = create_comment_for_multiple_results(original_query, query, results)
         else:
-            reply = 'No results were found in the Dota 2 Meme Database for your query: ' + query + \
+            reply = 'No results were found in the Dota 2 Meme Database for your query: ' + original_query + \
                     '\n\nYou might want to check out [the original thread with the meme list]' + \
                     '(https://www.reddit.com/r/DotA2/comments/4an9xd/a_trip_down_memery_lane_now_with_links_2nd_edition/).' + \
                     properties.COMMENT_ENDING
