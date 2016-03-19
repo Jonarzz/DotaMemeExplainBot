@@ -45,7 +45,7 @@ def main():
             except IndexError:
                 add_to_already_checked(comment['id'])
 
-            match = re.search(properties.BOT_CALL_PHRASE + ':?(.*)', comment['body'])
+            match = re.match(properties.BOT_CALL_PHRASE + ':?(.*)', comment['body'])
 
             if not match or match.group(1).strip() == '':
                 reply_to_comment(original_comment, comment['id'], properties.INVALID_REQUEST_REPLY)
