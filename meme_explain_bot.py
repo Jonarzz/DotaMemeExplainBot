@@ -162,7 +162,10 @@ def create_comment_for_multiple_results(original_query, query, results):
         comment += str(i) + ': '
         i += 1
 
-        links = result[0].split(' | ')
+        if type(result) != str:
+            result = result[0]
+
+        links = result.split(' | ')
         for link in links:
             comment += '[link](' + link + ') '
         comment += '\n\n'
