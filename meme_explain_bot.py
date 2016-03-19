@@ -33,6 +33,10 @@ def main():
             if already_checked(comment['id']):
                 continue
 
+            if comment['author'] == 'dota_memes_bot':
+                add_to_already_checked(comment['id'])
+                continue
+
             submission_link = 'https://www.reddit.com' + comment['link_permalink'] + comment['id']
             submission = reddit.get_submission(submission_link)
 
@@ -47,9 +51,7 @@ def main():
                 reply_to_comment(original_comment, comment['id'], properties.INVALID_REQUEST_REPLY)
             else:
                 query = match.group(1).strip()
-                if 'explainthememe' in query.lower():
-                    reply_to_comment(original_comment, comment['id'], properties.TRYING_TO_LOOP_REPLY)
-                elif len(query) > 2 and len(query) < 150:
+                if len(query) > 2 and len(query) < 150:
                     reply_to_comment(original_comment, comment['id'], create_reply(query))
                 else:
                     reply_to_comment(original_comment, comment['id'], properties.INVALID_COMMENT_LENGTH_REPLY)
