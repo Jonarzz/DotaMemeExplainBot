@@ -1,5 +1,7 @@
 # Dota Meme Explain Bot
 
+**The bot is turned off for now.**
+
 A bot running on /r/dota2, adding explanation to the community memes when called.
 
 *Thanks to /u/iggys_reddit_account the bot is running 24/7.*
