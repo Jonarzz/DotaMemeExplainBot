@@ -12,3 +12,7 @@ A bot running on /r/dota2, adding explanation to the community memes when called
 To call the bot, you need to start your post with "ExplainTheMeme" (the colon is optional) and after that add the query you want to find explanation for. The query should be longer than 2 and not longer than 150 characters.
 
 The bot is running non-stop with 30 second break after each run.
+
+---
+##Treeware License
+Basically MIT License, but if you use the code (learning or project purposes), you have to plant at least one tree at some future time.
